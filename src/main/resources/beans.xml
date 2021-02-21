@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+
+    <bean id="bank" class="kz.iitu.assignment1.Bank">
+        <property name="accounts">
+        <list>
+
+        </list>
+    </property>
+        <property name="ATMName" value="Kaspi"/>
+    </bean>
+
+    <bean id="ATM" class="kz.iitu.assignment1.ATM" init-method="init" destroy-method="destroy">
+        <constructor-arg index="0" ref="bank"/>
+    </bean>
+
+</beans>
