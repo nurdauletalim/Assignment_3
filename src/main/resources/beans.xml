@@ -3,19 +3,20 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+<!--    <bean id="bank" class="kz.iitu.assignment1.Bank" init-method="init" destroy-method="destroy">-->
+<!--        <property name="accounts">-->
+<!--        <list>-->
 
+<!--        </list>-->
+<!--    </property>-->
+<!--        <property name="dbUrl" value="jdbc:postgresql://localhost:5432/ATM"/>-->
+<!--        <property name="dbUsername" value="postgres"/>-->
+<!--        <property name="dbPassword" value="123"/>-->
+<!--        <property name="bankService" ref="atm"/>-->
+<!--    </bean>-->
 
-    <bean id="bank" class="kz.iitu.assignment1.Bank">
-        <property name="accounts">
-        <list>
-
-        </list>
-    </property>
-        <property name="ATMName" value="Kaspi"/>
-    </bean>
-
-    <bean id="ATM" class="kz.iitu.assignment1.ATM" init-method="init" destroy-method="destroy">
-        <constructor-arg index="0" ref="bank"/>
-    </bean>
+<!--    <bean id="atm" class="kz.iitu.assignment1.ATM" >-->
+<!--        <constructor-arg index="0" value="Kaspi"/>-->
+<!--    </bean>-->
 
 </beans>

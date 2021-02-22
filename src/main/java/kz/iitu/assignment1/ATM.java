@@ -1,21 +1,24 @@
 package kz.iitu.assignment1;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import java.sql.*;
 import java.util.Scanner;
 
+@Component("atm")
 public class ATM implements BankService{
-    public ATM(Bank bank) {
-       this.bank = bank;
-    }
-    Statement statement = null;
-    Connection connection = null;
+    @Value("atm.ATMName")
+    private String ATMName;
+
     private Account acc;
     private Bank bank;
 
     @Override
     public void menu(Account acc) {
         this.acc = acc;
-        System.out.println("Welcome to bank!");
+        System.out.println("Welcome to " + ATMName + " bank!");
         Scanner sc = new Scanner(System.in);
         int password;
         boolean pValid = false;
@@ -84,10 +87,11 @@ public class ATM implements BankService{
                 System.out.println(acc.getBalance());
                 amount2 = acc.getBalance() - amount;
                 acc.setBalance(amount2);
-                System.out.print("Your remaining balance is:  ");
+                System.out.print("Operation succeed.\n" + "Your remaining balance is:  ");
                 System.out.println(acc.getBalance());
                 return amount2;
             }
+            else System.out.println("Error! You don't have enough money.\nYour balance: " +acc.getBalance() );
         }
         return amount2;
     }
@@ -97,14 +101,12 @@ public class ATM implements BankService{
         double amount2 = 0;
         boolean isTrue =false;
         while (!isTrue){
-            if(amount <= acc.getBalance()){
                 System.out.println(acc.getBalance());
                 amount2 = acc.getBalance() + amount;
                 acc.setBalance(amount2);
                 System.out.print("Your remaining balance is:  ");
                 System.out.println(acc.getBalance());
                 return amount2;
-            }
         }
         return amount2;
     }
@@ -118,64 +120,4 @@ public class ATM implements BankService{
         System.out.println("PIN code successfully changed! Your new PIN: " + pin);
     }
 
-    @Override
-    public Bank getBank() {
-        return this.bank;
-    }
-
-    @Override
-    public void init() throws SQLException {
-        Connection connection = this.DBcon();
-        ResultSet set = null;
-        String query = "SELECT * FROM accounts";
-        statement = connection.createStatement();
-        set = statement.executeQuery(query);
-        while (set.next()){
-            Account acc = new Account(set.getInt(1), set.getDouble(2), set.getInt(3), set.getInt(4),
-                    set.getString(5));
-            bank.getAccounts().add(acc);
-    }}
-
-
-
-    @Override
-    public void setBank(Bank bank) {
-        this.bank = bank;
-    }
-
-    @Override
-    public void destroy() throws SQLException{
-        try {
-            connection.close();
-            if (connection != null) {
-                System.out.println("Connection is closed!!!");
-            }
-            else {
-                System.out.println("Something went wrong!!!");
-            }
-
-        }
-        catch (Exception e){
-            System.out.println(e);
-        }
-    }
-
-
-    @Override
-    public Connection DBcon() {
-        try {
-            Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ATM", "postgres", "123");
-            if (connection != null) {
-                System.out.println("Connection successfull !!!");
-            }
-            else {
-                System.out.println("Connection failed !!!");
-            }
-        }
-        catch (Exception e){
-            System.out.println(e);
-        }
-            return connection;
-    }
 }

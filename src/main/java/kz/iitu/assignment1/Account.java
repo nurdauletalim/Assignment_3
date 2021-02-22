@@ -1,5 +1,8 @@
 package kz.iitu.assignment1;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Account {
     private int acc_id;
     private String name;
